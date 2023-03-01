@@ -657,7 +657,7 @@ class Main_App(tkinter.Tk):
         logger.info('About clicked')
         self.about = About('About', '''
         Application name: File Mover Backup
-        Version: 0.10.00
+        Version: 0.20.00
         Developed by: Akio Fujitani
         e-mail: akiofujitani@gmail.com
         ''', self.resource_path('./Icon/Bedo.jpg'), self.icon_path)
@@ -794,7 +794,7 @@ def main(event=threading.Event):
                         counter = 0
                         for file in file_list:
                             file_last_modification = file_handler.fileCreationDate(file)
-                            if datetime.datetime.today().date() - datetime.timedelta(days=move_settings.days_from_today) > file_last_modification:
+                            if datetime.datetime.today().date() - datetime.timedelta(days=move_settings.days_from_today) >= file_last_modification:
                                 file_date_tuple = (file_last_modification.year, config.month_name_list[int(file_last_modification.month) - 1], "{:02d}".format(file_last_modification.day))     
                                 path_date = ''
                                 for i in range(path_organization):
@@ -819,16 +819,22 @@ def main(event=threading.Event):
         wait_time = config.min_to_seconds()
         logger.info(f'Wait time ... {wait_time}')
         while wait_time > 0:
-            if int(wait_time / 3600) >= 0 and wait_time % 3600 == 0:
+            if int(wait_time / 3600) > 0 and wait_time % 3600 == 0:
                 logger.info('More than a hour')
-            if int(wait_time / 1800) >= 1 and wait_time < 3600 and wait_time % 1800 == 0:
+            if int(wait_time / 1800) > 0 and wait_time < 3600 and wait_time % 1800 == 0:
                 logger.info('More than 30 minutes')
-            if int(wait_time / 900) >= 1 and wait_time < 1800 and wait_time % 900 == 0:
+            if int(wait_time / 900) > 0 and wait_time < 1800 and wait_time % 900 == 0:
                 logger.info('More than 15 minutes')
-            if int(wait_time / 60) >= 1 and wait_time < 900 and wait_time % 60 == 0:
-                logger.info(f'{int(wait_time / 60)} minutes')
+            if int(wait_time / 60) > 0 and wait_time < 900:
+                if wait_time % 600 == 0 or wait_time % 300 == 0:
+                    logger.info(f'{int(wait_time / 60)} minutes')
+                if wait_time < 360 and wait_time % 60 == 0:
+                    logger.info(f'{int(wait_time / 60)} minutes')
             if wait_time < 60:
-                logger.info(f'Time to next cicle {wait_time} seconds')
+                if wait_time % 15 == 0:
+                    logger.info(f'Time to next cicle {wait_time} seconds')
+                if wait_time < 10:
+                    logger.info(f'Time to next cicle {wait_time} seconds')
             if event.is_set():
                 logger.info(f'Wait time interrupted at {wait_time}')
                 return
