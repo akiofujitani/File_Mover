@@ -552,12 +552,9 @@ class Config_Window(tkinter.Toplevel):
             self.last_grab.grab_set()
         return super().destroy()
 
-
-
     def __click_button_cancel(self):
         logger.debug('Cancel click')
         self.__on_window_close()
-
 
     def __click_button_save(self):
         logger.debug('Save click')
