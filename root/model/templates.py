@@ -1,7 +1,21 @@
+gui_configuration = '''
+{
+    "alwais_on_top" : "false",
+    "list_geometry" : ""
+}
+'''
+
+data_object_list = '''
+{
+    "configuration": {
+        "file_path": "./data/config.json",
+        "class_object": "Configuration"
+    }
+}
+'''
 
 
-
-config_template = """{
+configuration = """{
 "wait_time" : 15,
 "files_per_cicle" : 1500,
 "month_name_list" : [
